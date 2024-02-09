@@ -28,11 +28,15 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir = new Vector3(horizontal, 0f, vertical).normalized;
         Vector3 velocity = moveSpeed * Time.deltaTime * moveDir;
 
-        Debug.Log(moveDir);
-        
-        if(moveDir.magnitude >= 0.1f)
+        float moveDistance = moveSpeed * Time.deltaTime;
+        float playerRadius = .7f;
+        float playerHeight = 2f;
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
+
+        if (canMove && moveDir.magnitude >= 0.1f)
         {
             transform.rotation = Quaternion.LookRotation(moveDir);
+            Debug.Log(velocity);
             characterController.Move(velocity);
         }
         animator.SetFloat("Speed", velocity.magnitude);
