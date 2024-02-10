@@ -26,19 +26,28 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         Vector3 moveDir = new Vector3(horizontal, 0f, vertical).normalized;
+
+
         Vector3 velocity = moveSpeed * Time.deltaTime * moveDir;
 
         float moveDistance = moveSpeed * Time.deltaTime;
-        float playerRadius = .7f;
+        float playerRadius = .5f;
         float playerHeight = 2f;
         bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
         if (canMove && moveDir.magnitude >= 0.1f)
         {
-            transform.rotation = Quaternion.LookRotation(moveDir);
+
+            float rotationSpeed = 10f;
+            Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+
             Debug.Log(velocity);
             characterController.Move(velocity);
         }
         animator.SetFloat("Speed", velocity.magnitude);
     }
+
+    //Keep coding!!!!!!!!!!!!
 }
