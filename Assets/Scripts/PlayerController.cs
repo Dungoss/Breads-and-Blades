@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(moveDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-
-            Debug.Log(velocity);
             characterController.Move(velocity);
         }
         animator.SetFloat("Speed", velocity.magnitude);
